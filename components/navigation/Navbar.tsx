@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import { site, navLinks } from "@/lib/site";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-surface)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-surface)]/80">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-surface)]/95 backdrop-blur supports-[backdrop-filter]:bg-[var(--color-surface)]/80 transition-colors duration-200">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <Link
             href="/"
@@ -19,7 +20,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-6" aria-label="Ana menü">
+          <nav className="hidden md:flex items-center gap-4 lg:gap-6" aria-label="Ana menü">
             {navLinks.map(({ href, label }) => (
               <Link
                 key={href}
@@ -29,9 +30,10 @@ export function Navbar() {
                 {label}
               </Link>
             ))}
+            <ThemeToggle />
             <Link
               href="/iletisim"
-              className="ml-2 rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-primary-hover)] transition-colors duration-150"
+              className="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--color-primary-hover)] transition-colors duration-150"
             >
               İletişime Geç
             </Link>
@@ -89,6 +91,9 @@ export function Navbar() {
                   </Link>
                 </li>
               ))}
+              <li className="flex justify-center pt-2">
+                <ThemeToggle />
+              </li>
               <li>
                 <Link
                   href="/iletisim"

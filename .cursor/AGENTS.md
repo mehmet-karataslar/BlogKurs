@@ -28,6 +28,7 @@ Bu proje **React** ve **Next.js (App Router)** ile geliştirilir. Aşağıdaki y
 - **nextjs-api-routes.mdc** – `app/api/**/*.ts`: Route Handlers, HTTP metodları, response.
 - **typescript-standards.mdc** – `**/*.ts,**/*.tsx`: tipler, strict, import/export.
 - **subagents-usage.mdc** – Alt ajan seçimi: explore (keşif), shell (komut), generalPurpose (çok adımlı). Her zaman uygulanır.
+- **theme-and-responsive.mdc** – Çoklu tema (CSS variables) ve responsive (sm/md/lg) standartları. Tüm sayfa, bileşen ve kartlar bu iki özellik üzerinde inşa edilir.
 
 Kurallar dosya/glob’a göre otomatik yüklenir; sohbette `@Rules` ile de eklenebilir.
 

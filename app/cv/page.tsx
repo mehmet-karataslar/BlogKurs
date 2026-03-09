@@ -9,39 +9,39 @@ export const metadata = {
 export default function CVPage() {
   return (
     <Section>
-      <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-6">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4 sm:mb-6">
         CV / Özgeçmiş
       </h1>
-      <div className="prose prose-invert max-w-none">
-        <h2 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">
+      <div className="max-w-none">
+        <h2 className="text-lg sm:text-xl font-semibold text-[var(--color-text-primary)] mt-4 sm:mt-6 mb-2">
           {site.name}
         </h2>
-        <p className="text-[var(--color-text-secondary)]">
+        <p className="text-sm sm:text-base text-[var(--color-text-secondary)]">
           {site.title} · {site.location}
         </p>
 
-        <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mt-6 mb-2">
+        <h3 className="text-base sm:text-lg font-semibold text-[var(--color-text-primary)] mt-4 sm:mt-6 mb-2">
           Eğitim
         </h3>
-        <p className="text-[var(--color-text-secondary)]">
+        <p className="text-sm sm:text-base text-[var(--color-text-secondary)]">
           Buraya eğitim bilgilerinizi ekleyin (üniversite, bölüm, yıl).
         </p>
 
-        <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mt-6 mb-2">
+        <h3 className="text-base sm:text-lg font-semibold text-[var(--color-text-primary)] mt-4 sm:mt-6 mb-2">
           Deneyim
         </h3>
-        <p className="text-[var(--color-text-secondary)]">
+        <p className="text-sm sm:text-base text-[var(--color-text-secondary)]">
           İş deneyimlerinizi kronolojik olarak listeleyebilirsiniz.
         </p>
 
-        <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mt-6 mb-2">
+        <h3 className="text-base sm:text-lg font-semibold text-[var(--color-text-primary)] mt-4 sm:mt-6 mb-2">
           Beceriler
         </h3>
-        <p className="text-[var(--color-text-secondary)]">
+        <p className="text-sm sm:text-base text-[var(--color-text-secondary)]">
           Teknik ve kişisel becerilerinizi burada özetleyin.
         </p>
 
-        <p className="mt-8 text-sm text-[var(--color-text-muted)]">
+        <p className="mt-6 sm:mt-8 text-xs sm:text-sm text-[var(--color-text-muted)]">
           İsterseniz PDF özgeçmiş linki veya indirme butonu da ekleyebilirsiniz.
         </p>
       </div>

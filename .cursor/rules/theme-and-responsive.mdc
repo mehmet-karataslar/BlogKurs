@@ -1,0 +1,41 @@
+---
+description: Tüm sayfalar, bileşenler ve kartlar çoklu tema + responsive temelinde inşa edilir.
+globs: **/*.{tsx,ts,css}
+alwaysApply: true
+---
+
+# Tema ve Responsive Standartları
+
+Bu projede **tüm sayfalar, yapılar, kartlar ve UI bileşenleri** iki temel üzerinde inşa edilir:
+
+1. **Çoklu tema (multi-theme)** — Renk ve arka plan her zaman CSS değişkenleri ile verilir; tema değişince otomatik uyum.
+2. **Responsive tasarım** — Mobil-first; sm / md / lg breakpoint’leri ile tipografi, boşluk ve grid uyumlu olur.
+
+## Tema (CSS Variables)
+
+- **Renk:** Asla sabit hex/rgb kullanma. Her zaman `var(--color-*)` kullan:
+  - Metin: `--color-text-primary`, `--color-text-secondary`, `--color-text-muted`
+  - Arka plan: `--color-background`, `--color-surface`, `--color-surface-elevated`
+  - Vurgu: `--color-primary`, `--color-primary-hover`, `--color-accent`
+  - Çerçeve: `--color-border`
+  - Badge: `--color-badge-proje-bg`, `--color-badge-proje-text`, vb.
+- Tema anahtarları: `data-theme="light" | "dark" | "sepia"` (html). Kullanıcı ThemeToggle ile seçer; tercih localStorage’da saklanır.
+- Yeni renk ihtiyacı: Önce `app/globals.css` içinde `:root` ve `[data-theme="light"]` (ve varsa `sepia`) için değişken ekle; bileşende bu değişkeni kullan.
+
+## Responsive
+
+- **Container:** Sayfa/section wrapper: `max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8`.
+- **Section padding:** `py-12 sm:py-16 md:py-20 lg:py-24`.
+- **Başlıklar:** `text-2xl sm:text-3xl md:text-4xl` (h1), `text-xl sm:text-2xl md:text-3xl` (h2), `text-base sm:text-lg` (h3).
+- **Gövde metni:** `text-sm sm:text-base`.
+- **Grid:** Kart/liste için `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`, gap: `gap-4 sm:gap-6`.
+- **Layout bileşenleri:** Section, Card, Footer, Navbar bu pattern’e uygun; yeni bileşenler de aynı breakpoint ve spacing mantığını kullanmalı.
+
+## Yeni Sayfa / Bileşen / Kart Eklerken
+
+- Renk için sadece `var(--color-*)` kullan.
+- Padding/margin ve font boyutları için en az bir üst breakpoint (sm veya md) tanımla.
+- Sayfa içeriği mümkünse `<Section>` ile sar; başlık ve paragraflar responsive sınıflarla yazılsın.
+- Kart (Card) ve liste grid’leri mevcut Card/CardGridSection pattern’ine uyumlu olsun; tema değişkenleri kullanılsın.
+
+Bu kurallar hem mevcut hem de gelecekte eklenecek tüm sayfa, yapı ve kartlar için geçerlidir.

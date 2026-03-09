@@ -3,9 +3,9 @@ import { site, footerLinks } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-[var(--color-border)] bg-[var(--color-surface)]">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-2 gap-6 md:gap-12">
+    <footer className="border-t border-[var(--color-border)] bg-[var(--color-surface)] transition-colors duration-200">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-12">
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)] mb-4">
               Hızlı Linkler

@@ -3,22 +3,22 @@ import { site } from "@/lib/site";
 
 export function CTASection() {
   return (
-    <section className="py-16 md:py-24 border-t border-[var(--color-border)]">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section className="py-12 sm:py-16 md:py-20 lg:py-24 border-t border-[var(--color-border)] transition-colors duration-200">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-text-primary)] mb-4">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[var(--color-text-primary)] mb-3 sm:mb-4">
               Bir fikriniz mi var? Birlikte hayata geçirelim.
             </h2>
-            <p className="text-[var(--color-text-secondary)] mb-6">
+            <p className="text-sm sm:text-base text-[var(--color-text-secondary)] mb-4 sm:mb-6">
               Yeni projeler, iş birlikleri veya sadece teknoloji üzerine sohbet
               etmek için her zaman buradayım.
             </p>
-            <p className="text-sm text-[var(--color-text-muted)]">
+            <p className="text-xs sm:text-sm text-[var(--color-text-muted)]">
               Yeni projeler için müsaitim
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <Link
               href="/iletisim"
               className="inline-flex items-center justify-center rounded-lg bg-[var(--color-primary)] px-6 py-3 font-medium text-white hover:bg-[var(--color-primary-hover)] transition-colors duration-150"
