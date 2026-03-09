@@ -1,0 +1,51 @@
+---
+description: Alt ajan (subagent) kullanım rehberi - explore, shell, generalPurpose ne zaman kullanılır
+alwaysApply: true
+---
+
+# Alt Ajanlar (Subagents) – Ne Zaman Kullanılır
+
+Cursor’da üç yerleşik alt ajan vardır. Kullanıcı sadece görevi söyler; hangi ajanın kullanılacağına bu kurala göre karar ver.
+
+## explore (Kod keşfi)
+
+**Ne yapar:** Kod tabanında hızlı arama, dosya/pattern bulma, yapı keşfi.
+
+**Ne zaman kullan:**
+- "Projeyi tara", "X nerede kullanılıyor?", "bu pattern’ı bul", "dosya yapısını göster"
+- Geniş kod tabanında arama veya birden fazla yerde keyword/pattern araması
+- Hangi dosyaların/klasörlerin ilgili olduğunu anlamak için keşif
+
+**Ne zaman kullanma:** Tek dosya okuma, bilinen yol ile düzenleme, basit grep — doğrudan araçlarla yap.
+
+## shell (Terminal / komut)
+
+**Ne yapar:** Git, npm/pnpm/yarn, build, test, dosya sistemi komutları.
+
+**Ne zaman kullan:**
+- "Bu komutu çalıştır", "git push yap", "npm install", "build al", "testleri çalıştır"
+- Komut satırı işlemleri (paket kurulumu, script, git, deploy)
+- Kullanıcı açıkça terminal komutu istediğinde
+
+**Not:** Komutları `;` ile birleştir; `&&` kullanma (Windows/PowerShell uyumluluğu için).
+
+## generalPurpose (Genel amaçlı)
+
+**Ne yapar:** Çok adımlı görevler, araştırma, karmaşık planlama, kod arama + analiz.
+
+**Ne zaman kullan:**
+- Geniş kapsamlı araştırma veya "projede X’i bul ve şunu yap" gibi çok adımlı istekler
+- Keşif + analiz + özet gerektiren görevler
+- Tek bir explore veya shell ile yetilemeyen karmaşık işler
+
+**Ne zaman kullanma:** Basit tek adım (tek dosya düzenleme, tek komut) — ana ajan yeterli.
+
+## Özet
+
+| İstek türü           | Kullanılacak ajan     |
+|----------------------|------------------------|
+| Projeyi tara, X’i bul | **explore**            |
+| Komut çalıştır, git/npm | **shell**          |
+| Çok adımlı / araştırma | **generalPurpose**   |
+
+Kullanıcı doğrudan ajan adı söylemez; sen göreve göre uygun ajanı seç.
