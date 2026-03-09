@@ -1,0 +1,66 @@
+---
+description: Next.js API Route Handlers - app/api, HTTP metodları, response formatı
+globs: "**/app/api/**/*.ts"
+alwaysApply: false
+---
+
+# Next.js API Route Kuralları
+
+## Dosya Yapısı
+
+- Her API segmenti için `route.ts` (örn. `app/api/posts/route.ts`).
+- Dinamik segment: `app/api/posts/[id]/route.ts`; params `Promise` (Next 15+) olabilir.
+
+## HTTP Metodları
+
+- Kullanılan metodu adlandırılmış export ile tanımla: `GET`, `POST`, `PUT`, `PATCH`, `DELETE`.
+- Desteklenmeyen metod için `NextResponse` ile 405 dön.
+
+```ts
+// ✅ İyi
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const page = searchParams.get('page') ?? '1';
+  const data = await getPosts(Number(page));
+  return NextResponse.json(data);
+}
+
+export async function POST(request: Request) {
+  const body = await request.json();
+  const validated = schema.safeParse(body);
+  if (!validated.success) {
+    return NextResponse.json(
+      { error: validated.error.flatten() },
+      { status: 400 }
+    );
+  }
+  const created = await createPost(validated.data);
+  return NextResponse.json(created, { status: 201 });
+}
+```
+
+## Request & Response
+
+- Body: `request.json()`; form için `request.formData()`.
+- Query: `new URL(request.url).searchParams`.
+- Header: `request.headers.get('Authorization')` vb.
+- Cevap: `NextResponse.json(data, { status })`; tutarlı error formatı (örn. `{ error: string }` veya `{ errors: ... }`).
+
+## Hata ve Durum Kodları
+
+- 200: Başarılı GET.
+- 201: Başarılı oluşturma (POST).
+- 400: Geçersiz istek (validation).
+- 401: Yetkisiz.
+- 404: Kaynak yok.
+- 500: Sunucu hatası; detayı logla, kullanıcıya generic mesaj.
+
+## Güvenlik
+
+- Kimlik doğrulama: middleware veya route içinde session/token kontrolü.
+- Hassas işlemlerde rate limit ve input doğrulama (Zod vb.) kullan.
+
+## Tip Güvenliği
+
+- Request body ve response için TypeScript type/interface tanımla.
+- Mümkünse Zod/Yup ile runtime validation yap; tipi `z.infer<typeof schema>` ile türet.

@@ -1,0 +1,48 @@
+---
+description: TypeScript kullanım kuralları - tipler, strict mode, import/export
+globs: "**/*.ts,**/*.tsx"
+alwaysApply: false
+---
+
+# TypeScript Kuralları
+
+## Genel
+
+- `strict: true` (ve ilgili strict seçenekleri) açık olsun.
+- `any` kullanma. Bilinmeyen yapı için `unknown` ve type guard kullan.
+- Gerekmedikçe type assertion (`as`) kullanma; önce doğru tip veya generic ile çöz.
+
+## Tip Tanımları
+
+- Interface veya type: proje tutarlılığına göre biri seç (genelde interface bileşen props, type union/utility için).
+- Ortak tipler: `types/` veya `lib/types.ts`; modül içi tek kullanım için dosya içi.
+- Export: sadece dışarıdan kullanılacak tipleri export et.
+
+```ts
+// ✅ İyi
+interface Post {
+  id: string;
+  title: string;
+  slug: string;
+  publishedAt: string;
+}
+
+type ApiResponse<T> =
+  | { success: true; data: T }
+  | { success: false; error: string };
+```
+
+## Null & Undefined
+
+- `strictNullChecks` açık; optional `?` ve `undefined` bilinçli kullan.
+- Optional chaining (`?.`) ve nullish coalescing (`??`) tercih et.
+
+## Async & Promise
+
+- Async fonksiyon return tipi açık gerekmez ama karmaşık ise `Promise<T>` yaz.
+- Hata: `try/catch` veya Result tipi; reject’leri yakalayıp uygun şekilde yönet.
+
+## Import/Export
+
+- Named export tercih et; default export sadece sayfa/route ve tek public API olan modüller için.
+- Tip-only import: `import type { X } from '...'` kullan (tree-shaking ve netlik için).

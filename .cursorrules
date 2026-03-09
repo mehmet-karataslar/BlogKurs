@@ -1,0 +1,9 @@
+# BlogKurs – Cursor Kuralları (Özet)
+
+Bu proje React + Next.js (App Router) + TypeScript kullanır.
+
+- TypeScript strict; any yok. Bileşenler functional; client sadece "use client" ile.
+- App Router: app/ altında layout, page, loading, error, route.ts.
+- API: app/api/.../route.ts; NextResponse.json, uygun status kodları.
+- Stil: Tailwind tercih; isimlendirme PascalCase (bileşen), camelCase (fonksiyon/değişken).
+- Detaylı kurallar: .cursor/rules/*.mdc ve AGENTS.md.

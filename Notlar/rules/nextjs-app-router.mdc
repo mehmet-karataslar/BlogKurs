@@ -1,0 +1,59 @@
+---
+description: Next.js App Router - layout, page, loading, error, metadata
+globs: "**/app/**/*.tsx"
+alwaysApply: false
+---
+
+# Next.js App Router Kuralları
+
+## Dosya Konvansiyonları
+
+- `layout.tsx` – Segment layout; iç içe segmentlerde tek kök layout.
+- `page.tsx` – Rota UI; default export edilen React bileşeni.
+- `loading.tsx` – Segment için yükleme UI (Suspense sarmalayıcı).
+- `error.tsx` – Hata sınırı; `error` ve `reset` props kullan.
+- `not-found.tsx` – 404 UI (isteğe bağlı).
+- `route.ts` – Route Handler (GET, POST vb.); `app/api/` veya segment içinde.
+
+## Layout
+
+- `layout.tsx` içinde ortak UI (header, footer, sidebar) ve `<main>` yapısı.
+- Root `app/layout.tsx`: `<html>`, `<body>`, font ve global metadata.
+- Alt segment layout’ları sadece o segment için ek wrapper sağlasın.
+
+## Page
+
+- `page.tsx` default export; async olabilir (Server Component).
+- Veri doğrudan `page` içinde fetch edilebilir; tekrarlayan mantık için server action veya lib fonksiyonu.
+
+```tsx
+// ✅ İyi – Server Component
+export default async function BlogPage() {
+  const posts = await getPosts();
+  return (
+    <main>
+      <PostList posts={posts} />
+    </main>
+  );
+}
+```
+
+## Loading & Error
+
+- Uzun süren segmentler için `loading.tsx` ekle; basit skeleton veya spinner.
+- `error.tsx`: `'use client'`; `error` (Error instance) ve `reset()` kullan; kullanıcıya tekrar dene imkanı ver.
+
+## Metadata
+
+- Statik: `layout.tsx` veya `page.tsx` içinde `export const metadata = { title, description, ... }`.
+- Dinamik: `generateMetadata` async fonksiyonu kullan.
+
+## Route Handlers (API)
+
+- `app/api/.../route.ts`; GET, POST, PUT, DELETE vb. export et.
+- Response: `NextResponse.json()`, uygun status kodları (200, 201, 400, 401, 404, 500).
+
+## Link & Navigation
+
+- Dahili geçişler için `<Link href="...">`; `next/link` kullan.
+- Programatik yönlendirme: `redirect()` (server) veya `useRouter().push()` (client).
