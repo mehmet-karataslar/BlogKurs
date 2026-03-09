@@ -1,0 +1,56 @@
+# Bağımlılıklar
+node_modules/
+.pnp
+.pnp.js
+
+# Build / çıktılar
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# Ortam / gizli dosyalar
+.env
+.env.*
+!.env.example
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Loglar ve önbellek
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.cache/
+.parcel-cache/
+
+# OS gizli ve gereksiz dosyalar
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE / editör (kişisel ayarlar; proje .cursor kuralları repo’da kalabilir)
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Test / kapsam
+coverage/
+.nyc_output/
+*.lcov
+
+# Diğer
+.vercel
+.turbo
+*.pem
