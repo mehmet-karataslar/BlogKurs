@@ -36,7 +36,8 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 
-# IDE / editör (kişisel ayarlar; proje .cursor kuralları repo’da kalabilir)
+# IDE / editör
+.cursor/
 .idea/
 *.swp
 *.swo
