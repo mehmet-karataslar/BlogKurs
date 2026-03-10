@@ -13,7 +13,7 @@ Bu dosya, BlogKurs projesine **projeler** (kullanıcının kendi projelerini tan
   - `title`: string
   - `excerpt`: string (kısa tanıtım, liste ve SEO için)
   - `cover_image_url`: string (Supabase Storage'dan dönen public URL)
-  - `content`: string (proje detayları, açıklama – Markdown veya HTML)
+  - `content`: string (**rich text çıktısı:** HTML veya editörün JSON formatı; proje detayları)
   - `github_url`: string (GitHub repo linki; boş olabilir)
   - `related_links`: jsonb veya json (ilgili linkler: örn. `[{ "label": "Canlı Demo", "url": "https://..." }, ...]`)
   - `published`: boolean (yayında mı)
@@ -51,33 +51,35 @@ Tüm admin sayfalarında tema (CSS variables) ve responsive kuralları kullan; r
 
 ---
 
-## 4. Admin – Yeni proje / Düzenleme sayfası (form)
+## 4. Admin – Yeni proje / Düzenleme sayfası (form ve düzen)
 
 Tek bir form bileşeni hem "yeni" hem "düzenle" için kullanılsın.
 
-- **Alanlar:**
-  1. **Başlık (title):** metin, zorunlu.
-  2. **Slug:** metin, zorunlu; boş bırakılırsa başlıktan otomatik üret (Türkçe karakterleri değiştir, boşluk → tire).
-  3. **Kısa tanıtım (excerpt):** textarea, 1–2 cümle, liste ve SEO için.
-  4. **Kapak görseli (cover_image_url):** Mevcut görsel varsa önizleme; dosya seç (image/*) → sıkıştır → API ile yükle → dönen URL'i alana yaz.
-  5. **Proje detayları (content):** Markdown veya zengin metin editörü (blog ile aynı yapı).
-  6. **GitHub linki (github_url):** metin (URL); opsiyonel. Validasyon: geçerli URL veya boş.
-  7. **İlgili linkler (related_links):** Dinamik liste: her biri "etiket" + "URL" (örn. "Canlı Demo", "https://..."). Array olarak sakla; UI'da ekle/çıkar satırı.
-  8. **Yayın durumu (published):** checkbox veya toggle (taslak / yayında).
-  9. **Ana sayfada göster (featured_on_homepage):** checkbox veya toggle.
-  10. **Ana sayfa sırası (homepage_order):** number (küçük değer önce).
+**Sayfa düzeni (blog ile aynı mantık; referans arayüzle uyumlu):**
+- **Sol taraf:** **(1) Temel Bilgiler** (başlık, slug, özet), **(2) İçerik** (zengin metin editörü — proje detayları).
+- **Sağ taraf:** **(1) Kapak Görseli** (URL girin veya dosya yükleyin; önizleme), **(2) Yayınlama** (toggle’lar, isteğe bağlı alanlar), **(3) İsteğe bağlı:** Kategori veya etiketler. Responsive: mobilde tek sütun; masaüstünde sol/sağ grid.
+
+**Alanlar:**
+1. **Başlık (title)***: metin, zorunlu.
+2. **URL Slug***: metin, zorunlu; boşsa başlıktan otomatik üret.
+3. **Özet (excerpt):** textarea, kısa tanıtım; liste ve SEO için.
+4. **Proje detayları (content):** **Zengin metin (rich text) editörü** — blog’dakiyle aynı (Bölüm 6’ya bakın): toolbar (font, boyut, renk, başlıklar, kalın/italik, listeler, link, görsel, tablo, alıntı, kod bloğu vb.), "Dosyadan Aktar" isteğe bağlı. Placeholder örn. "Proje açıklamanızı buraya yazın...".
+5. **Kapak görseli (cover_image_url):** "URL girin veya dosya yükleyin" — **(URL)** ve **(Dosya)** butonları; görsel önizlemesi.
+6. **GitHub linki (github_url):** metin (URL); opsiyonel.
+7. **İlgili linkler (related_links):** Dinamik liste: etiket + URL; ekle/çıkar.
+8. **Yayın durumu (published):** Toggle — "Projeyi yayınla".
+9. **Ana sayfada göster (featured_on_homepage):** Toggle.
+10. **Ana sayfa sırası (homepage_order):** number.
 - Form gönderiminde: Yeni → POST; Düzenle → PUT/PATCH. Validasyon client (Zod) + API.
 
 ---
 
-## 5. Admin – Kapak görseli yükleme (Supabase Storage + sıkıştırma)
+## 5. Admin – Kapak görseli (URL veya dosya yükleme)
 
-- Blog ile aynı mantık: büyük görseller **önce sıkıştır** (istemci veya sunucuda), sonra yükle.
-- **API route:** `app/api/admin/projeler/upload/route.ts` (veya `app/api/projeler/upload/route.ts`).
-  - POST, FormData, dosya tipi ve boyut kontrolü.
-  - Supabase Storage bucket: `project-covers` (veya `blog-covers` ile aynı bucket'ta `projeler/` prefix).
-  - Response: `{ url: "..." }` (public URL).
-- İstemci: dosya seç → (büyükse) sıkıştır → API'ye at → URL'i state'e yaz, önizlemede göster.
+- **Seçenekler:** Kullanıcı **URL** girebilir (görsel linki yapıştır) veya **Dosya** yükleyebilir. Formda "URL girin veya dosya yükleyin" + URL / Dosya butonları + görsel önizlemesi.
+- Dosya yüklemede blog ile aynı mantık: büyük görseller önce sıkıştır, sonra Supabase Storage'a yükle.
+- **API route:** `app/api/admin/projeler/upload/route.ts`. POST, FormData; bucket `project-covers`; response `{ url: "..." }`.
+- İstemci: URL veya dosya seçimi → önizlemede göster; dosyada sıkıştır → API → URL state'e yaz.
 
 ---
 
@@ -123,7 +125,7 @@ Tek bir form bileşeni hem "yeni" hem "düzenle" için kullanılsın.
   - Layout:
     - Kapak görseli (next/image), başlık (h1), tarih (created_at/updated_at).
     - **Görüntülenme ve beğeni:** Sayfa yüklendiğinde view artır (API); beğeni butonu ile like artır (API). Tekrar sayım/beğeni engelleme: cookie veya localStorage.
-    - Proje detayları: `content` (Markdown veya HTML render).
+    - Proje detayları: `content` **rich text (HTML)** olarak render edilir; `dangerouslySetInnerHTML` veya sanitize edilmiş HTML bileşeni.
     - **GitHub linki:** Varsa buton/link (yeni sekmede aç).
     - **İlgili linkler:** `related_links` array'ini liste veya butonlar olarak göster (etiket + URL).
   - Stil: Tema değişkenleri, responsive, container `max-w-3xl mx-auto` gibi.
@@ -154,8 +156,9 @@ Tek bir form bileşeni hem "yeni" hem "düzenle" için kullanılsın.
 - [ ] Supabase: `projects` tablosu (slug unique, view_count, like_count, github_url, related_links), Storage bucket `project-covers`
 - [ ] Project tipi ve lib/projects
 - [ ] Admin proje listesi (görüntülenme/beğeni, ana sayfada sütunu)
-- [ ] Admin "yeni proje" ve "düzenle" sayfaları (GitHub + ilgili linkler alanları dahil)
-- [ ] Kapak yükleme: sıkıştırma + Supabase Storage
+- [ ] Admin "yeni proje" ve "düzenle" sayfaları: sol (temel + rich text editör), sağ (kapak URL/dosya, yayınlama); GitHub + ilgili linkler
+- [ ] Proje içeriği: zengin metin (rich text) editörü — blog ile aynı toolbar ve özellikler
+- [ ] Kapak: URL veya dosya yükleme, sıkıştırma + Supabase Storage
 - [ ] Admin API: list, get, create, update, delete
 - [ ] Müşteri proje listesi (`/projeler`)
 - [ ] Müşteri tekil proje (`/projeler/[slug]`) + GitHub + related_links + görüntülenme/beğeni (API: view, like)
