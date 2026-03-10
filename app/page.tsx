@@ -2,8 +2,9 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { CardGridSection } from "@/components/sections/CardGridSection";
 import { CTASection } from "@/components/sections/CTASection";
 import type { CardItem } from "@/components/ui/Card";
+import { getPostsForHomepage } from "@/lib/blog";
 
-// Örnek veri — kendi proje ve blog içeriğinizle değiştirin
+// Örnek veri — kendi proje içeriğinizle değiştirin
 const projeler: (CardItem & { href: string })[] = [
   {
     title: "Örnek Proje 1",
@@ -25,27 +26,27 @@ const projeler: (CardItem & { href: string })[] = [
   },
 ];
 
-const sonYazilar: (CardItem & { href: string })[] = [
-  {
-    title: "İlk Blog Yazısı",
-    description: "Blog yazılarınızın kısa özeti burada görünecek.",
-    href: "/blog",
-    badge: "blog",
-  },
-  {
-    title: "İkinci Yazı",
-    description: "Teknoloji, kariyer veya kişisel notlarınızı paylaşabilirsiniz.",
-    href: "/blog",
-    badge: "blog",
-  },
-];
+export default async function Home() {
+  let sonYazilar: (CardItem & { href: string })[] = [];
+  try {
+    const featuredPosts = await getPostsForHomepage(6);
+    sonYazilar = featuredPosts.map((post) => ({
+      title: post.title,
+      description: post.excerpt,
+      href: `/blog/${post.slug}`,
+      badge: "blog" as const,
+      imageUrl: post.cover_image_url ?? undefined,
+      imageAlt: post.title,
+    }));
+  } catch {
+    // Supabase not configured or error — show no featured posts
+  }
 
-export default function Home() {
   return (
     <>
       <HeroSection />
       <CardGridSection title="Projeler" items={projeler} filterTabs={["Tümü"]} />
-      <CardGridSection title="Son Yazılar" items={sonYazilar} filterTabs={["Tümü"]} />
+      <CardGridSection title="Öne Çıkan Yazılar" items={sonYazilar} filterTabs={["Tümü"]} />
       <CTASection />
     </>
   );
