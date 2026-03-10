@@ -29,6 +29,7 @@ Bu proje **React** ve **Next.js (App Router)** ile geliştirilir. Aşağıdaki y
 - **typescript-standards.mdc** – `**/*.ts,**/*.tsx`: tipler, strict, import/export.
 - **subagents-usage.mdc** – Alt ajan seçimi: explore (keşif), shell (komut), generalPurpose (çok adımlı). Her zaman uygulanır.
 - **theme-and-responsive.mdc** – Çoklu tema (CSS variables) ve responsive (sm/md/lg) standartları. Tüm sayfa, bileşen ve kartlar bu iki özellik üzerinde inşa edilir.
+- **folder-structure-modern.mdc** – Modern klasör ve dosya yapısı; böl-parçala mimarisi, tek sorumluluk, `app/` segmentleri, `components/` (ui, layout, sections, features), `lib/` (utils, hooks, api, types). Yeni dosya/klasör oluştururken her zaman uygulanır.
 
 Kurallar dosya/glob’a göre otomatik yüklenir; sohbette `@Rules` ile de eklenebilir.
 

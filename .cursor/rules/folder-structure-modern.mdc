@@ -1,0 +1,96 @@
+---
+description: Modern klasör ve dosya yapısı; böl-parçala mimarisi, tek sorumluluk, feature/domain gruplama.
+globs: **/*.{ts,tsx,js,jsx,css}
+alwaysApply: true
+---
+
+# Modern Klasör ve Dosya Yapısı (Böl–Parçala)
+
+Yeni dosya veya klasör oluştururken **modern mimari** ve **böl-parçala (divide & conquer)** ilkesine uy. Her modül/klasör tek bir sorumluluk taşısın; ilgili parçalar bir arada gruplansın.
+
+## Genel İlkeler
+
+1. **Tek sorumluluk:** Bir dosya veya klasör tek bir işe/domain’e odaklansın.
+2. **Böl-parçala:** Büyük yapıları mantıksal parçalara böl; her parça kendi klasöründe veya dosyasında olsun.
+3. **Colocation:** Bir feature’a özgü bileşen, hook, tip ve yardımcılar mümkünse o feature altında toplansın.
+4. **Tutarlı isimlendirme:** Klasörler **kebab-case**; React bileşen dosyaları **PascalCase** veya bileşen adıyla; diğer TS/JS dosyaları **camelCase** veya **kebab-case** (proje tutarlılığına göre).
+
+---
+
+## Kök Yapı
+
+```
+app/          → Rotalar, layout, sayfa, API (Next.js App Router)
+components/   → UI bileşenleri (ui | layout | sections | features | theme | navigation)
+lib/          → Yardımcılar, API client, hooks, tipler, sabitler
+styles/       → Global CSS, tema (gerekirse)
+public/       → Statik dosyalar
+```
+
+---
+
+## app/ (Next.js App Router)
+
+- **Segment = URL parçası.** Her segment için gerekirse: `layout.tsx`, `page.tsx`, `loading.tsx`, `error.tsx`.
+- **Böl-parçala:** Alt sayfaları olan bölümler için alt segment kullan.
+  - Örnek: `/blog` → `app/blog/page.tsx`; tek yazı → `app/blog/[slug]/page.tsx`.
+  - Ortak layout gerekiyorsa: `app/blog/layout.tsx`.
+- **API:** `app/api/[kaynak]/route.ts` — kaynak adı kebab-case (örn. `app/api/posts/route.ts`).
+- Dosya adları: `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `route.ts` (Next.js kurallarına uy).
+
+---
+
+## components/
+
+Bileşenleri **türüne/rolüne** göre alt klasörlere koy. Gerekirse feature’a özel klasör aç.
+
+| Alt klasör      | Kullanım |
+|-----------------|----------|
+| `ui/`           | Genel, yeniden kullanılabilir primitifler (Button, Card, Badge, Input). |
+| `layout/`       | Sayfa iskeleti (Header, Footer, Section, Sidebar). |
+| `sections/`     | Sayfa blokları (HeroSection, CTASection, CardGridSection). |
+| `features/`     | Domain/feature’a özel bileşenler; her feature kendi alt klasörü (örn. `features/blog/`, `features/auth/`). |
+| `theme/`        | Tema ile ilgili (ThemeProvider, ThemeToggle). |
+| `navigation/`   | Menü, Navbar, breadcrumb. |
+
+- **Yeni genel bileşen:** Önce `ui/`, `layout/` veya `sections/` içinde uygun yere koy.
+- **Yeni feature bileşeni:** İlgili feature için `components/features/[feature-adı]/` aç; bileşenleri orada böl (örn. `BlogCard.tsx`, `BlogList.tsx`).
+- **Böl-parçala:** Bir bileşen çok büyürse veya alt parçaları varsa, aynı klasörde küçük bileşenlere böl veya `components/features/[feature]/` altında alt bileşen klasörü kullan.
+
+---
+
+## lib/
+
+Yardımcıları **sorumluluğa** göre ayır; gerekirse alt klasör kullan.
+
+| Kullanım        | Örnek |
+|-----------------|--------|
+| `lib/utils.ts` veya `lib/utils/` | Genel yardımcılar (formatDate, cn, vb.). |
+| `lib/hooks/`    | Özel hook’lar (`useAuth.ts`, `usePosts.ts`). |
+| `lib/api/`      | API client, fetch wrapper’lar. |
+| `lib/types/`    | Paylaşılan TypeScript tipleri. |
+| `lib/constants/`| Sabitler (site adı, config). |
+
+- Tek dosya yeterliyse: `lib/theme.ts`, `lib/site.ts` gibi.
+- Çok sayıda ilgili yardımcı varsa: `lib/utils/format.ts`, `lib/utils/validation.ts` gibi alt dosyalara böl.
+
+---
+
+## Yeni Dosya/Klasör Açarken Kontrol Listesi
+
+- [ ] Bu dosya/klasör **tek bir sorumluluk** mu taşıyor?
+- [ ] Yerleşim **mevcut yapıya** uygun mu (app → segment; components → ui/layout/sections/features/…; lib → utils/hooks/api/types)?
+- [ ] Feature’a özel bir şey mi? → `components/features/[feature]/` veya `app/[segment]/` + gerekirse `lib/` altında feature’a özel modül.
+- [ ] Klasör adı **kebab-case**, bileşen dosya adı **PascalCase** mi?
+- [ ] Gereksiz derinlik yok mu? (Örn. `components/ui/button/Button.tsx` sadece tek bileşen için gerekmedikçe kullanma; `components/ui/Button.tsx` yeterli olabilir.)
+
+---
+
+## Özet
+
+- **app:** Segment bazlı; her segment için page/layout/loading/error; API için `api/[kaynak]/route.ts`.
+- **components:** ui | layout | sections | features | theme | navigation; feature’a özel olanlar `features/[feature-adı]/`.
+- **lib:** utils, hooks, api, types, constants; tek sorumluluk ve gerekirse alt dosyalara böl.
+- **İsimlendirme:** Klasörler kebab-case; bileşen dosyaları PascalCase; diğerleri proje ile uyumlu.
+
+Bu kural, Next.js, JavaScript/TypeScript ve diğer kaynak dosyaları oluşturulurken her zaman dikkate alınır.
