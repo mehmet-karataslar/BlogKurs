@@ -10,9 +10,13 @@ const OPTIONS = { maxWidthOrHeight: 1600, maxSizeMB: 1, useWebWorker: true };
 interface CoverImageFieldProps {
   value: string | null;
   onChange: (url: string | null) => void;
+  /** Upload API endpoint for file uploads. Default: blog upload. */
+  uploadEndpoint?: string;
 }
 
-export function CoverImageField({ value, onChange }: CoverImageFieldProps) {
+const DEFAULT_UPLOAD_ENDPOINT = "/api/admin/blog/upload";
+
+export function CoverImageField({ value, onChange, uploadEndpoint = DEFAULT_UPLOAD_ENDPOINT }: CoverImageFieldProps) {
   const [mode, setMode] = useState<"url" | "file">("url");
   const [urlInput, setUrlInput] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -29,7 +33,7 @@ export function CoverImageField({ value, onChange }: CoverImageFieldProps) {
       }
       const formData = new FormData();
       formData.append("file", blob, file.name);
-      const res = await fetch("/api/admin/blog/upload", {
+      const res = await fetch(uploadEndpoint, {
         method: "POST",
         body: formData,
       });

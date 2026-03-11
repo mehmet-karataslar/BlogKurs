@@ -8,6 +8,8 @@ const navItems = [
   { href: "/admin", label: "Dashboard", icon: DashboardIcon },
   { href: "/admin/blog", label: "Blog listesi", icon: ListIcon },
   { href: "/admin/blog/yeni", label: "Yeni yazı", icon: PlusIcon, highlight: true },
+  { href: "/admin/projeler", label: "Projeler listesi", icon: ListIcon },
+  { href: "/admin/projeler/yeni", label: "Yeni proje", icon: PlusIcon, highlight: true },
   { href: "/", label: "Siteye dön", icon: HomeIcon, muted: true },
 ];
 

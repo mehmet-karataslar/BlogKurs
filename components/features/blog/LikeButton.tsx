@@ -5,47 +5,54 @@ import { useState, useCallback, useEffect } from "react";
 interface LikeButtonProps {
   slug: string;
   initialCount: number;
+  /** localStorage key for deduplication. Default: blog. Use "project_liked" for projects. */
+  storageKey?: string;
+  /** API base path (e.g. "/api/blog" or "/api/projeler"). Request: POST {basePath}/{slug}/like */
+  basePath?: string;
 }
 
-const STORAGE_KEY = "blog_liked";
-
-function getLikedSlugs(): string[] {
+function getLikedSlugs(storageKey: string): string[] {
   if (typeof localStorage === "undefined") return [];
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey);
     return raw ? (JSON.parse(raw) as string[]) : [];
   } catch {
     return [];
   }
 }
 
-function addLikedSlug(slug: string) {
-  const slugs = getLikedSlugs();
+function addLikedSlug(slug: string, storageKey: string) {
+  const slugs = getLikedSlugs(storageKey);
   if (slugs.includes(slug)) return;
   slugs.push(slug);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(slugs));
+  localStorage.setItem(storageKey, JSON.stringify(slugs));
 }
 
-export function LikeButton({ slug, initialCount }: LikeButtonProps) {
+export function LikeButton({
+  slug,
+  initialCount,
+  storageKey = "blog_liked",
+  basePath = "/api/blog",
+}: LikeButtonProps) {
   const [count, setCount] = useState(initialCount);
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    setLiked(getLikedSlugs().includes(slug));
-  }, [slug]);
+    setLiked(getLikedSlugs(storageKey).includes(slug));
+  }, [slug, storageKey]);
 
   const handleClick = useCallback(() => {
     if (liked) return;
-    fetch(`/api/blog/${encodeURIComponent(slug)}/like`, { method: "POST" })
+    fetch(`${basePath}/${encodeURIComponent(slug)}/like`, { method: "POST" })
       .then((res) => {
         if (res.ok) {
           setCount((c) => c + 1);
           setLiked(true);
-          addLikedSlug(slug);
+          addLikedSlug(slug, storageKey);
         }
       })
       .catch(() => {});
-  }, [slug, liked]);
+  }, [slug, liked, storageKey, basePath]);
 
   return (
     <button
