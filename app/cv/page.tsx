@@ -1,50 +1,40 @@
+import { getCv } from "@/lib/cv";
 import { Section } from "@/components/layout/Section";
+import { CvSiteSection } from "@/components/features/cv/CvSiteSection";
+import { CvBuilderForm } from "@/components/features/cv/CvBuilderForm";
 import { site } from "@/lib/site";
 
 export const metadata = {
-  title: "CV / Özgeçmiş | Bahar Can",
-  description: "Bahar Can özgeçmiş.",
+  title: `CV / Özgeçmiş | ${site.name}`,
+  description: `${site.name} özgeçmişi. Kendi CV'nizi de oluşturup PDF indirebilirsiniz.`,
 };
 
-export default function CVPage() {
+export default async function CVPage() {
+  const cv = await getCv();
+
   return (
     <Section>
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--color-text-primary)] mb-4 sm:mb-6">
         CV / Özgeçmiş
       </h1>
-      <div className="max-w-none">
-        <h2 className="text-lg sm:text-xl font-semibold text-[var(--color-text-primary)] mt-4 sm:mt-6 mb-2">
-          {site.name}
+
+      <section className="mb-12 sm:mb-16">
+        <h2 className="text-xl sm:text-2xl font-semibold text-[var(--color-text-primary)] mb-4">
+          Site sahibinin CV’si
         </h2>
-        <p className="text-sm sm:text-base text-[var(--color-text-secondary)]">
-          {site.title} · {site.location}
-        </p>
+        <CvSiteSection cv={cv} />
+      </section>
 
-        <h3 className="text-base sm:text-lg font-semibold text-[var(--color-text-primary)] mt-4 sm:mt-6 mb-2">
-          Eğitim
-        </h3>
-        <p className="text-sm sm:text-base text-[var(--color-text-secondary)]">
-          Buraya eğitim bilgilerinizi ekleyin (üniversite, bölüm, yıl).
+      <section className="border-t border-[var(--color-border)] pt-12 sm:pt-16">
+        <h2 className="text-xl sm:text-2xl font-semibold text-[var(--color-text-primary)] mb-2">
+          Kendi CV’nizi oluşturun
+        </h2>
+        <p className="text-sm sm:text-base text-[var(--color-text-secondary)] mb-6">
+          Bilgilerinizi girip anında PDF CV oluşturabilirsiniz. Veriler
+          saklanmaz.
         </p>
-
-        <h3 className="text-base sm:text-lg font-semibold text-[var(--color-text-primary)] mt-4 sm:mt-6 mb-2">
-          Deneyim
-        </h3>
-        <p className="text-sm sm:text-base text-[var(--color-text-secondary)]">
-          İş deneyimlerinizi kronolojik olarak listeleyebilirsiniz.
-        </p>
-
-        <h3 className="text-base sm:text-lg font-semibold text-[var(--color-text-primary)] mt-4 sm:mt-6 mb-2">
-          Beceriler
-        </h3>
-        <p className="text-sm sm:text-base text-[var(--color-text-secondary)]">
-          Teknik ve kişisel becerilerinizi burada özetleyin.
-        </p>
-
-        <p className="mt-6 sm:mt-8 text-xs sm:text-sm text-[var(--color-text-muted)]">
-          İsterseniz PDF özgeçmiş linki veya indirme butonu da ekleyebilirsiniz.
-        </p>
-      </div>
+        <CvBuilderForm />
+      </section>
     </Section>
   );
 }
