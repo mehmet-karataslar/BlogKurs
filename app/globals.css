@@ -301,3 +301,25 @@ body {
 .blog-detail-body {
   margin-top: 0.5rem;
 }
+
+/* — Hakkımda sayfası: bölüm ve liste animasyonları — */
+@keyframes about-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.about-section {
+  opacity: 0;
+  animation: about-fade-in 0.45s ease-out forwards;
+}
+
+.about-item {
+  opacity: 0;
+  animation: about-fade-in 0.35s ease-out forwards;
+}
