@@ -42,6 +42,7 @@ export async function createMessage(
     .insert({
       name: row.name,
       email: row.email,
+      phone: row.phone ?? "",
       subject: row.subject ?? "",
       message: row.message,
       status: "new",

@@ -7,6 +7,13 @@ export const site = {
   location: "İstanbul, Türkiye",
   email: "bahar.can@email.com", // Kendi e-posta adresinizle değiştirin
   tagline: "Yazılım Mühendisi. İstanbul'da yaşıyorum.",
+  /** Sosyal medya linkleri — boş string görünmez. */
+  social: {
+    github: "",
+    linkedin: "",
+    instagram: "",
+    twitter: "",
+  },
 } as const;
 
 export const navLinks = [

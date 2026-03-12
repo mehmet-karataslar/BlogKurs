@@ -1,11 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { site, navLinks } from "@/lib/site";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 
+function isActivePath(href: string, pathname: string): boolean {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(href + "/");
+}
+
 export function Navbar() {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
@@ -21,15 +28,22 @@ export function Navbar() {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-4 lg:gap-6" aria-label="Ana menü">
-            {navLinks.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className="text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-150"
-              >
-                {label}
-              </Link>
-            ))}
+            {navLinks.map(({ href, label }) => {
+              const isActive = isActivePath(href, pathname);
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`text-sm transition-colors duration-150 ${
+                    isActive
+                      ? "font-bold text-[var(--color-primary)]"
+                      : "text-[var(--color-text-secondary)] hover:text-[var(--color-primary)]"
+                  }`}
+                >
+                  {label}
+                </Link>
+              );
+            })}
             <ThemeToggle />
             <Link
               href="/iletisim"
@@ -80,17 +94,24 @@ export function Navbar() {
             aria-label="Mobil menü"
           >
             <ul className="flex flex-col gap-2">
-              {navLinks.map(({ href, label }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block rounded-lg px-3 py-2 text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-elevated)] hover:text-[var(--color-text-primary)]"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
+              {navLinks.map(({ href, label }) => {
+                const isActive = isActivePath(href, pathname);
+                return (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      onClick={() => setMobileOpen(false)}
+                      className={`block rounded-lg px-3 py-2 transition-colors ${
+                        isActive
+                          ? "font-bold text-[var(--color-primary)] bg-[var(--color-primary)]/10"
+                          : "text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-elevated)] hover:text-[var(--color-text-primary)]"
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                );
+              })}
               <li className="flex justify-center pt-2">
                 <ThemeToggle />
               </li>

@@ -3,9 +3,10 @@ import { createMessage } from "@/lib/contact";
 import { z } from "zod";
 
 const contactSchema = z.object({
-  name: z.string().min(1, "Ad gerekli"),
+  name: z.string().min(1, "Ad Soyad gerekli"),
   email: z.string().min(1, "E-posta gerekli").email("Geçerli bir e-posta girin"),
-  subject: z.string().optional().default(""),
+  phone: z.string().optional().default(""),
+  subject: z.string().min(1, "Konu gerekli"),
   message: z.string().min(1, "Mesaj gerekli"),
 });
 
@@ -16,11 +17,11 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       const first = parsed.error.flatten().fieldErrors;
       const msg =
-        first.name?.[0] ?? first.email?.[0] ?? first.message?.[0] ?? "Geçersiz veri";
+        first.name?.[0] ?? first.email?.[0] ?? first.subject?.[0] ?? first.message?.[0] ?? "Geçersiz veri";
       return NextResponse.json({ error: msg }, { status: 400 });
     }
-    const { name, email, subject, message } = parsed.data;
-    await createMessage({ name, email, subject: subject ?? "", message });
+    const { name, email, phone, subject, message } = parsed.data;
+    await createMessage({ name, email, phone: phone ?? "", subject, message });
     return NextResponse.json(
       { message: "Mesajınız alındı, en kısa sürede dönüş yapacağız." },
       { status: 201 }
