@@ -1,3 +1,4 @@
+import path from "path";
 import {
   Document,
   Page,
@@ -5,14 +6,31 @@ import {
   View,
   StyleSheet,
   Image,
+  Font,
 } from "@react-pdf/renderer";
 import type { CV } from "@/lib/types/cv";
+
+// Türkçe karakter (ğ, ü, ş, ı, ö, ç) desteği için Roboto fontu
+const robotoRoot = path.join(process.cwd(), "node_modules", "roboto-font", "fonts", "Roboto");
+Font.register({
+  family: "Roboto",
+  fonts: [
+    {
+      src: path.join(robotoRoot, "roboto-regular-webfont.ttf"),
+      fontWeight: 400,
+    },
+    {
+      src: path.join(robotoRoot, "roboto-bold-webfont.ttf"),
+      fontWeight: 700,
+    },
+  ],
+});
 
 const styles = StyleSheet.create({
   page: {
     padding: 40,
     fontSize: 11,
-    fontFamily: "Helvetica",
+    fontFamily: "Roboto",
     color: "#1a1a1a",
   },
   header: {
@@ -60,7 +78,7 @@ export function CvPdfDocument({ data }: CvPdfDocumentProps) {
             ) : null}
           </View>
           {data.photo_url ? (
-            <Image src={data.photo_url} style={styles.photo} alt="" />
+            <Image src={data.photo_url} style={styles.photo} />
           ) : null}
         </View>
 
