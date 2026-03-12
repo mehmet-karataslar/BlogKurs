@@ -11,6 +11,19 @@ export function newCvId(): string {
   return crypto.randomUUID();
 }
 
+/** Tarih alanını input type="date" için YYYY-MM-DD formatına çevirir (takvim seçici). */
+export function toDateInputValue(value: string | undefined): string {
+  if (!value || !value.trim()) return "";
+  const s = value.trim();
+  const ymd = /^\d{4}-\d{2}-\d{2}$/.test(s);
+  const ym = /^\d{4}-\d{2}$/.test(s);
+  const y = /^\d{4}$/.test(s);
+  if (ymd) return s;
+  if (ym) return `${s}-01`;
+  if (y) return `${s}-01-01`;
+  return "";
+}
+
 export const emptyEducation = (): CvEducation => ({
   id: newCvId(),
   school: "",

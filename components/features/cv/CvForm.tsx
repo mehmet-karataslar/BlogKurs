@@ -18,6 +18,7 @@ import {
   emptyCertificate,
   emptyLanguage,
   buildCvPayload,
+  toDateInputValue,
 } from "@/lib/cv-form-utils";
 
 const CV_UPLOAD = "/api/admin/cv/upload";
@@ -420,24 +421,26 @@ export function CvForm({ initial }: CvFormProps) {
                       ×
                     </button>
                   </div>
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="flex gap-2 flex-wrap items-center">
+                    <label className="sr-only">Başlangıç tarihi</label>
                     <input
-                      type="text"
-                      value={edu.start_date}
+                      type="date"
+                      value={toDateInputValue(edu.start_date)}
                       onChange={(e) =>
                         updateEducation(i, "start_date", e.target.value)
                       }
-                      placeholder="Başlangıç (örn. 2015)"
-                      className="w-24 rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm"
+                      title="Başlangıç tarihi"
+                      className="w-36 min-w-[8rem] rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm text-[var(--color-text-primary)]"
                     />
+                    <label className="sr-only">Bitiş tarihi</label>
                     <input
-                      type="text"
-                      value={edu.end_date}
+                      type="date"
+                      value={toDateInputValue(edu.end_date)}
                       onChange={(e) =>
                         updateEducation(i, "end_date", e.target.value)
                       }
-                      placeholder="Bitiş (örn. 2019)"
-                      className="w-24 rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm"
+                      title="Bitiş tarihi"
+                      className="w-36 min-w-[8rem] rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm text-[var(--color-text-primary)]"
                     />
                   </div>
                   <input
@@ -499,24 +502,26 @@ export function CvForm({ initial }: CvFormProps) {
                       ×
                     </button>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 flex-wrap items-center">
+                    <label className="sr-only">Başlangıç tarihi</label>
                     <input
-                      type="text"
-                      value={exp.start_date}
+                      type="date"
+                      value={toDateInputValue(exp.start_date)}
                       onChange={(e) =>
                         updateExperience(i, "start_date", e.target.value)
                       }
-                      placeholder="Başlangıç"
-                      className="w-24 rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm"
+                      title="Başlangıç tarihi"
+                      className="w-36 min-w-[8rem] rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm text-[var(--color-text-primary)]"
                     />
+                    <label className="sr-only">Bitiş tarihi</label>
                     <input
-                      type="text"
-                      value={exp.end_date}
+                      type="date"
+                      value={toDateInputValue(exp.end_date)}
                       onChange={(e) =>
                         updateExperience(i, "end_date", e.target.value)
                       }
-                      placeholder="Bitiş"
-                      className="w-24 rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm"
+                      title="Bitiş tarihi"
+                      className="w-36 min-w-[8rem] rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm text-[var(--color-text-primary)]"
                     />
                   </div>
                   <textarea
@@ -626,13 +631,13 @@ export function CvForm({ initial }: CvFormProps) {
                     className="flex-1 min-w-[8rem] rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm"
                   />
                   <input
-                    type="text"
-                    value={cert.date}
+                    type="date"
+                    value={toDateInputValue(cert.date)}
                     onChange={(e) =>
                       updateCertificate(i, "date", e.target.value)
                     }
-                    placeholder="Tarih"
-                    className="w-24 rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm"
+                    title="Sertifika tarihi"
+                    className="w-36 min-w-[8rem] rounded border border-[var(--color-border)] bg-[var(--color-background)] px-2 py-1.5 text-sm text-[var(--color-text-primary)]"
                   />
                   <input
                     type="url"
