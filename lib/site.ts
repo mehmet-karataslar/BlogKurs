@@ -13,9 +13,9 @@ export const navLinks = [
   { href: "/", label: "Ana Sayfa" },
   { href: "/blog", label: "Blog" },
   { href: "/projeler", label: "Projeler" },
-  { href: "/iletisim", label: "İletişim" },
   { href: "/hakkimda", label: "Hakkımda" },
   { href: "/cv", label: "CV / Özgeçmiş" },
+  { href: "/iletisim", label: "İletişim" },
 ] as const;
 
 export const footerLinks = [...navLinks] as const;

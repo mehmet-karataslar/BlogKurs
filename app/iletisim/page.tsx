@@ -1,5 +1,6 @@
 import { Section } from "@/components/layout/Section";
 import { site } from "@/lib/site";
+import { ContactForm } from "@/components/features/contact/ContactForm";
 
 export const metadata = {
   title: "İletişim | Bahar Can",
@@ -13,8 +14,7 @@ export default function IletisimPage() {
         İletişim
       </h1>
       <p className="text-sm sm:text-base text-[var(--color-text-secondary)] mb-6 sm:mb-8">
-        Projeler, iş birlikleri veya merak ettikleriniz için benimle iletişime
-        geçebilirsiniz.
+        Projeler, iş birlikleri veya sorularınız için formu doldurun.
       </p>
       <ul className="space-y-3 text-sm sm:text-base text-[var(--color-text-secondary)]">
         <li>
@@ -31,10 +31,7 @@ export default function IletisimPage() {
           {site.location}
         </li>
       </ul>
-      <p className="mt-6 sm:mt-8 text-xs sm:text-sm text-[var(--color-text-muted)]">
-        İsterseniz aşağıya bir iletişim formu da ekleyebilirsiniz (API veya
-        form servisi ile).
-      </p>
+      <ContactForm />
     </Section>
   );
 }

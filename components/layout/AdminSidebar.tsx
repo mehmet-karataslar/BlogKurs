@@ -29,6 +29,14 @@ function ProjectIcon({ className }: { className?: string }) {
   );
 }
 
+function MessageIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+    </svg>
+  );
+}
+
 function AboutIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
@@ -94,6 +102,7 @@ const navConfig: (NavSingle | NavGroup)[] = [
       { href: "/admin/projeler/yeni", label: "Proje Ekle" },
     ],
   },
+  { type: "single", href: "/admin/mesajlar", label: "Mesajlar", icon: MessageIcon },
   { type: "single", href: "/admin/hakkimda", label: "Hakkımda", icon: AboutIcon },
   { type: "single", href: "/", label: "Siteye dön", icon: HomeIcon, muted: true },
 ];
